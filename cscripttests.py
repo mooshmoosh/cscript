@@ -12,3 +12,6 @@ assert (cscript.isIncludeLine('#include "something.h"'))
 assert (cscript.isIncludeLine('#include <something.h>'))
 assert (cscript.isIncludeLine('   #include <something.h>'))
 
+assert (cscript.isTypedef(''))
+
+print("OK")

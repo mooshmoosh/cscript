@@ -11,6 +11,9 @@ def isIncludeLine(line):
 def isTypedef(line):
     return re.compile("[\s]*typedef").match(line)
 
+def fileIsNewerThan(filename1, filename2):
+    return os.stat(filename1).st_mtime >= os.stat(filename2).st_mtime 
+
 def shouldBeMovedToTop(line):
     if isFunctionDeclaration(line):
         return True

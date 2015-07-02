@@ -12,6 +12,10 @@ def isTypedef(line):
     return re.compile("[\s]*typedef").match(line)
 
 def fileIsNewerThan(filename1, filename2):
+    if not os.path.exists(filename1):
+        return False
+    if os.path.exists(filename2):
+        return False
     return os.stat(filename1).st_mtime >= os.stat(filename2).st_mtime 
 
 def shouldBeMovedToTop(line):
@@ -35,6 +39,14 @@ if __name__ == "__main__":
             sys.argv.pop(index)
 
     sourceFileName = sys.argv[1]
+    commandLineArguments = " ".join(sys.argv[2:])
+
+    (sourceDirectory, sourceFile) = os.path.split(sourceFileName)
+    executableFileName = sourceDirectory + '/' + "." + sourceFile+ ".bin"
+
+    if fileIsNewerThan(executableFileName, sourceFileName):
+        os.system(executableFileName + " " + commandLineArguments)
+        exit()
     
     with open(sourceFileName, "r") as file:
         scriptContents = file.read().splitlines()
@@ -82,18 +94,12 @@ int main(int argc, char** argv)
 }
 """
 
-    (sourceDirectory, sourceFileName) = os.path.split(sourceFileName)
-    
-    executableFileName = sourceDirectory + '/' + "." + sourceFileName + ".bin"
-    
-    tmpfile = sourceDirectory + "/" + "." + sourceFileName + ".c"
+    tmpfile = sourceDirectory + "/" + "." + sourceFile + ".c"
 
     with open (tmpfile, "w") as file:
         file.write(cfile)
 
     statusCode = os.system("gcc " + tmpfile + " " + compileArguments + " -o " + executableFileName)
-    
-    commandLineArguments = " ".join(sys.argv[2:])
     
     if not statusCode:
         os.system(executableFileName + " " + commandLineArguments)

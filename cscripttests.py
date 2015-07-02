@@ -26,4 +26,5 @@ assert (not cscript.fileIsNewerThan('secondfile', 'firstfile'))
 
 os.system('rm secondfile')
 os.system('rm firstfile')
+
 print("OK")

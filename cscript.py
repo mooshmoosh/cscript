@@ -9,7 +9,7 @@ def isIncludeLine(line):
     return re.compile("\s*#include").match(line)
 
 def isTypedef(line):
-    return re.compile("[\s\w]*typedef").match(line)
+    return re.compile("[\s]*typedef").match(line)
 
 def shouldBeMovedToTop(line):
     if isFunctionDeclaration(line):

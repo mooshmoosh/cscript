@@ -12,6 +12,8 @@ assert (cscript.isIncludeLine('#include "something.h"'))
 assert (cscript.isIncludeLine('#include <something.h>'))
 assert (cscript.isIncludeLine('   #include <something.h>'))
 
-assert (cscript.isTypedef(''))
+assert (cscript.isTypedef('typedef struct {}'))
+assert (cscript.isTypedef('   typedef struct {}'))
+assert (not cscript.isTypedef('   struct {}'))
 
 print("OK")
